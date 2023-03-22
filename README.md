@@ -81,7 +81,8 @@ Setting up the Windows Server is a straight forward procedure:
 
 ### Setting Up Network Adapters Within Windows Server
 This is step is crucial so make sure your addressing is correct.
-https://user-images.githubusercontent.com/118489496/227037592-53aa339e-5048-4d86-917a-651e7f0e5017.mp4
+
+![1](https://user-images.githubusercontent.com/118489496/227038073-ac232c43-c61e-462a-8303-b9a60a84ad9c.mp4)
 
 - To find the adapter options, either right click on network icon on the task bar and click "Open Network and Internet settings" or type "Network and Internet" in your settings and click on "Change Adapter Options".
 - Once you have opened up your adapter options, locate the two adapters and browse through their addresses. 
