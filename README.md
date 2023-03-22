@@ -31,6 +31,11 @@ To have a better idea of what I've done in this project, I have made a basic top
 - Splunk Universal Forwarder Image for Windows server 2016/2019 ISO image
 - Splunk Server (Refer to my other [repo](https://github.com/kasra-sal/Splunk-Environment-Setup.git)) 
 
+## Gathering The Required ISO Images
+To gather the required ISO images, please refer to the following links:
+  - Windows Server [2016](https://info.microsoft.com/ww-landing-windows-server-2016.html)/[2019](https://info.microsoft.com/ww-landing-windows-server-2019.html)
+  - Windows [10](https://www.microsoft.com/en-ca/software-download/windows10ISO)/[11](https://www.microsoft.com/en-ca/software-download/windows11)
+  - [Splunk Universal Forwarder] for Windows Server (https://www.splunk.com/en_us/download/universal-forwarder.html)(Create an account if you do not have one already or simply log in) 
 
 ## Github Installation
 Download the github installer from [Github](https://desktop.github.com/) follow the installation steps to install github on your windows server.
@@ -51,8 +56,22 @@ Use the following command to clone this repository
 git clone https://github.com/kasra-sal/Basic_System_Administration_Home_Lab.git
 ```
 
-## Gathering The Required ISO Images
-To gather the required ISO images, please refer to the following links:
-  - Windows Server [2016](https://info.microsoft.com/ww-landing-windows-server-2016.html)/[2019](https://info.microsoft.com/ww-landing-windows-server-2019.html)
-  - Windows [10](https://www.microsoft.com/en-ca/software-download/windows10ISO)/[11](https://www.microsoft.com/en-ca/software-download/windows11)
-  - [Splunk Universal Forwarder for Windows Server](https://www.splunk.com/en_us/download/universal-forwarder.html)(Create an account if you do not have one already or simply log in) 
+## Setting up Windows Server
+Setting up the Windows Server is a straight forward procedure:
+ 1. Create a new virtual machine
+ 2. Choose the ISO image you have previously downloaded
+ 3. If you are using Vmware, you will be prompted with easy install information; Hence fill in required information and leave the Windows product key box empty.
+ 4. Give it the location you want the vm to reside in
+ 5. Allocate sufficient disk size, RAM and cpu cores (Refer to this [article](https://learn.microsoft.com/en-us/windows-server/get-started/hardware-requirements) to find minimum requirements. 
+ 6. Once the template is done:
+  ![3](https://user-images.githubusercontent.com/118489496/227008480-a2aabd3c-32b1-4bcf-83f9-2b54b5cd84eb.gif)
+    - Click on "Edit" at the top left corner of vmware tray.
+    - Click on "Virtual Network Editor"
+    - Click on "Add Network" (On Windows version of vmware, you may require admin permissions)
+    - Set "Network name" to vmnet 3 (This could be any number but I have set it as vmnet 3. Refer to the topology {link})
+    - Select "Host-only" under "Type".
+    - Once you created the network adapter, click on "vmnet3", make sure that you deselect "Use local DHCP service to distribute IP addresses to VMs.
+    - Click save.
+    - Go back to your virtual machine, click on "Edit Virtual Machine Settings". Under "Hardware" tab click on "add" and add a new adapter.
+    - Finally set that adapter as vmnet 3.
+   
