@@ -81,9 +81,7 @@ Setting up the Windows Server is a straight forward procedure:
 
 ### Setting Up Network Adapters Within Windows Server
 This is step is crucial so make sure your addressing is correct.
-
-![1](https://user-images.githubusercontent.com/118489496/227038073-ac232c43-c61e-462a-8303-b9a60a84ad9c.mp4)
-
+https://user-images.githubusercontent.com/118489496/227038073-ac232c43-c61e-462a-8303-b9a60a84ad9c.mp4
 - To find the adapter options, either right click on network icon on the task bar and click "Open Network and Internet settings" or type "Network and Internet" in your settings and click on "Change Adapter Options".
 - Once you have opened up your adapter options, locate the two adapters and browse through their addresses. 
 - You could tell which one is your vmnet 3 and which one is your NAT adapter by looking at the ipv4 address within the status page.
