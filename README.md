@@ -94,5 +94,7 @@ https://user-images.githubusercontent.com/118489496/227037592-53aa339e-5048-4d86
   -   Preferred DNS : 172.16.0.1
   -   Alternate DNS : 127.0.0.1
  Once you have changed the addresses, your prompt should look similar to the following picture:
+ 
 ![5](https://user-images.githubusercontent.com/118489496/227037635-2bd3686e-c6de-45da-827f-d5f1aafc5349.png)
+
 press ok and exit out of adapter options
