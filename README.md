@@ -80,7 +80,7 @@ Setting up the Windows Server is a straight forward procedure:
 ![1](https://user-images.githubusercontent.com/118489496/227009173-eb12b163-548b-4629-a127-8af5aedea7a1.gif)
 
 ### Setting Up Network Adapters Within Windows Server
-This is step is crucial so make sure your addressing is correct.
+This is step is crucial so make sure your addressing is correct. We will be assigning an address to "vmnet3" adapter on windows server for when we configure RAS and NAT for our AD computers.
 
 https://user-images.githubusercontent.com/118489496/227038073-ac232c43-c61e-462a-8303-b9a60a84ad9c.mp4
 
@@ -98,4 +98,37 @@ https://user-images.githubusercontent.com/118489496/227038073-ac232c43-c61e-462a
  
 ![5](https://user-images.githubusercontent.com/118489496/227037635-2bd3686e-c6de-45da-827f-d5f1aafc5349.png)
 
-press ok and exit out of adapter options
+press "OK" and close adapter options window.
+
+The reason behind this step is to be able to make the windows server a DHCP server aswell as a NAT server so that our AD computers have to go through the server before they can reach the internet. This allows for better control over the devices as well as maintaining security by implementing more security measures that I will showcase on the upcoming projects.
+
+### Active Directory Setup
+Next step is to setup active directory. Installing Active Directory Domain Services is very simple:
+#### Installing AD DS 
+https://user-images.githubusercontent.com/118489496/227043489-9134658b-e620-4cb7-a57a-3b81d75142a6.mp4
+
+1. First Click "Add Roles and Features" on your server manager.
+2. On "Before You Begin" page click next
+3. On installation type select "Role-based or feature-based installtion".
+4. On "Server Selection" page click next. (Note if you have more Domain Controllers you may have to choose the correct one)
+5. On "Server Roles" page select "Active Directory Domain Services" and click next.
+6. On "Features" page click next.
+7. On "AD DS" page click next.
+8. On "Confirmation" page click install.
+#### Promoting Server to Become a Domain Controller
+
+Once the AD DS installtion is done, you need to promote the server to become a domain controller. 
+
+Uploading 7.mp4…
+
+1. On "Deployment Configuration" page select "add a new forest". Enter the domain name you want inside "Root domain name" field
+2. On "Domain Controller Options" page enter password for DSRM.
+3. On "DNS Options" page click next.
+4. On "Additional Options" page click next.
+5. On "Paths" page click next.
+6. On "Review Options" page click next.
+7. On "Prerequisites Check" page click install.
+
+
+
+
