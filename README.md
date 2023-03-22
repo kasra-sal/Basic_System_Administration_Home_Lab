@@ -119,7 +119,7 @@ https://user-images.githubusercontent.com/118489496/227043489-9134658b-e620-4cb7
 
 Once the AD DS installtion is done, you need to promote the server to become a domain controller. 
 
-Uploading 7.mp4…
+https://user-images.githubusercontent.com/118489496/227045085-b61cc58e-94ec-4b41-a1ba-705b87b8daba.mp4
 
 1. On "Deployment Configuration" page select "add a new forest". Enter the domain name you want inside "Root domain name" field
 2. On "Domain Controller Options" page enter password for DSRM.
