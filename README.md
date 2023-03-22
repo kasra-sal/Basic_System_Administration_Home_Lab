@@ -56,7 +56,8 @@ Use the following command to clone this repository
 git clone https://github.com/kasra-sal/Basic_System_Administration_Home_Lab.git
 ```
 
-## Setting up Windows Server
+## Step-By-Step Installation
+### Setting up Windows Server
 Setting up the Windows Server is a straight forward procedure:
  1. Create a new virtual machine
  2. Choose the ISO image you have previously downloaded
@@ -64,7 +65,7 @@ Setting up the Windows Server is a straight forward procedure:
  4. Give it the location you want the vm to reside in
  5. Allocate sufficient disk size, RAM and cpu cores (Refer to this [article](https://learn.microsoft.com/en-us/windows-server/get-started/hardware-requirements) to find minimum requirements. 
  6. Once the template is done:
-  ![3](https://user-images.githubusercontent.com/118489496/227008480-a2aabd3c-32b1-4bcf-83f9-2b54b5cd84eb.gif)
+ ![3](https://user-images.githubusercontent.com/118489496/227008480-a2aabd3c-32b1-4bcf-83f9-2b54b5cd84eb.gif)
     - Click on "Edit" at the top left corner of vmware tray.
     - Click on "Virtual Network Editor"
     - Click on "Add Network" (On Windows version of vmware, you may require admin permissions)
@@ -74,4 +75,24 @@ Setting up the Windows Server is a straight forward procedure:
     - Click save.
     - Go back to your virtual machine, click on "Edit Virtual Machine Settings". Under "Hardware" tab click on "add" and add a new adapter.
     - Finally set that adapter as vmnet 3.
-   
+7. Launce the virtual machine and install windows server.
+  - One thing to note is that if you choose to install any version that doesn't have "Desktop experince" you will not be given a GUI.
+![1](https://user-images.githubusercontent.com/118489496/227009173-eb12b163-548b-4629-a127-8af5aedea7a1.gif)
+
+### Setting Up Network Adapters Within Windows Server
+This is step is crucial so make sure your addressing is correct.
+https://user-images.githubusercontent.com/118489496/227037592-53aa339e-5048-4d86-917a-651e7f0e5017.mp4
+
+- To find the adapter options, either right click on network icon on the task bar and click "Open Network and Internet settings" or type "Network and Internet" in your settings and click on "Change Adapter Options".
+- Once you have opened up your adapter options, locate the two adapters and browse through their addresses. 
+- You could tell which one is your vmnet 3 and which one is your NAT adapter by looking at the ipv4 address within the status page.
+- Once you found which one is internal adapter (vmnet3), right click on that adapter and choose "properties"
+- double click "Internet Protocol Version 4" and enter information as follow:
+  -   IP address : 172.16.0.1 (you could set your own address aslong as it doesn't overlap other addresses)
+  -   Subnet mask: 255.255.255.0 (which is a /24 subnet holding up to 254 addresses available to be assigned to hosts)
+  -   Leave default gateway empty
+  -   Preferred DNS : 172.16.0.1
+  -   Alternate DNS : 127.0.0.1
+ Once you have changed the addresses, your prompt should look similar to the following picture:
+![5](https://user-images.githubusercontent.com/118489496/227037635-2bd3686e-c6de-45da-827f-d5f1aafc5349.png)
+press ok and exit out of adapter options
