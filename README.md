@@ -129,6 +129,67 @@ https://user-images.githubusercontent.com/118489496/227045085-b61cc58e-94ec-4b41
 6. On "Review Options" page click next.
 7. On "Prerequisites Check" page click install.
 
+#### Domain Admin Creation
 
+It is good security practice to make a second tier admin that has necessary permissions to perform certain actions but restricted to a defined scope. For this reason I made a user named "John Doe" and assigned the role "Domain Admin" to it. 
+
+
+https://user-images.githubusercontent.com/118489496/227644918-643886e8-2bc5-4d6e-a6fd-8f0f7a921fc4.mp4
+
+
+To create a new user in your active directory, do the following:
+1. Click on tools on the server manager.
+2. Select active directory users and computers
+3. expand the domain to be able to see OUs within the domain
+4. Right click on the doman and choose New > Organizational Unit
+5. Type in "Test_Users" and click ok
+6. Right click on "Test_Users" OU and choose New > User
+7. Type in the following information:
+  - First Name: John
+  - Last Name: Doe
+  - Full Name John Doe
+  - User logon name: J-Doe
+8. Click next
+9. Fill in the password field.
+10. (Optional) : I decided to not force my user to change password at the next logon. This results in less flexiblity and security for the user and should be checked everytime. But for the purpose of this lab I decided to not do so.
+11. Once you finished creating the user, right click on John Doe and choose properties.
+12. Click on Member Of > Add ...
+13. Under "Enter the object names to select type "Domain Admin" and click check names.
+14. press ok.
+
+Once you restart the server you should be able to login using John Does logon name and password.
+
+
+https://user-images.githubusercontent.com/118489496/227645021-bbb03c03-c8e6-4847-8726-abb2362963a0.mp4
+
+### Installing and Configuring RAS/NAT 
+
+![DeepinScreenshot_select-area_20230321143326](https://user-images.githubusercontent.com/118489496/227645739-fc9b6614-2c3a-46e7-96b6-01bc9bbdabfc.png)
+
+The intended purpose for these services is to be able to route new computer's traffic through the server. This way we would have more control over the network in return for more overhead. With that being said, I wanted to make the network so that VM "AD Jorb" (Btw I couldn't think of a better name at the time :) ) has to send its traffic through DC1 and then from DC1 the traffic gets relayed to the internet. This process will utilize NAT feature to both increase availibility of addresses on higher tier DHCP aswell as basic anonimity. It's worth noting that this anonimity doesn't protect you against potential threats, however it will only show the server's address rather than individual device addresses.
+
+
+https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b-b2a9-5fafa259b11e.mp4
+
+
+To install RAS do the following:
+
+1. On server manager, click on "add roles and features.
+2. On "Before You Begin" page click next.
+3. On "Installation Type" page click next.
+4. On "Server Selection" page choose your server and click next.
+5. On "Server Roles" page, select "Remote Access" and click next.
+6. On "Features" page click next.
+7. On "Remote Access" page click next.
+8. On "Role Services" select "Routing", click "add feature" and click next.
+9. On "Confirmation" page click install.
+
+To configure RAS do the following:
+1. On server manager, click tools > Routing and Remote Access
+2. Right click on your domain controller and click "Configure and Enable Routing and Remote Access"
+3. Click Next
+4. On "Configuration" page select "Network Address Translation (NAT)" and click Next.
+5. On "NAT Internet Connection" select the network interface that is internet facing. To make this easier, it's the adapter that was not manually configured earlier. 
+6. On "Completing the Routing and Remote Access Server Setup" Click Finish.
 
 
