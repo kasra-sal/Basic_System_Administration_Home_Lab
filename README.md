@@ -387,4 +387,40 @@ https://user-images.githubusercontent.com/118489496/227703931-0dd0a5c4-1714-431c
 
 ### Peform Basic Account Security
 
+To have a more enforced policy, we will take advantage of policy hierarchy. To do this we will make a policy at the highest level, set general password policies and then enforce it down to lower level policies.
+
+https://user-images.githubusercontent.com/118489496/227737268-a82b4ccc-3b1f-4c02-97ae-9dd4f01007db.mp4
+
+Follow the steps given below to enforce policies from higher tier:
+1. Click on Tools > Group Policy Management
+2. Expand Domains > homelab.com (or your domain name)
+3. Right click on your domain and click "Create a GPO in this domain and link it here"
+4. Give it a name (In this case "Default_Admin_Stuff")
+5. Right click on the newly created GPO and choose "Edit"
+6. Expand Computer Configuration > Policies > Windows Settings > Security Settings > Password Policy
+7. Edit each policy with the given value:
+  - Enforced Password History : True
+  - Maximum Password Age : 30 days
+    - This is important because in the event that a malicious actor gains access to the system without the system recognizing it, they will have access to this account for a long period of time. Another benefit of this option is that if a user uses the same credentials for other services and it gets leaked, on the long run it will not affect the current company directly.
+  - Minimum Password Age : 15 days 
+    - This ensures that once the user changed their password, they cannot change it again within 15 days.
+  - Minimum Password Length : 10 
+    - Having this option enabled is benefitial as shorter passwords are easier to crack.
+    - Another important thing to note is that passwords containing personal belongings or pet names should be avoided as this will increase the crackability of an account using a brute force attack or targetted attacks
+  - Password Must Meet Password Complexity Requirements
+    - This option allows administrators to enforce password policies that deny passwords that do not have the required criterias.
+    - Usually these requirements include atleast one uppercase letter, one lowercase letter, numbers and special characters
+
+
+https://user-images.githubusercontent.com/118489496/227737281-7544acf3-bcd1-4d86-b8f7-95525461fb7e.mp4
+
+
+Once you are done enforce these roles so that lower GPOs do take these changes:
+1. On Group Policy Management window, Right click on "Default_Admin_Stuff"
+2. Click "Enforced"
+
+Now the higher tier policy should take precedence.
+
+
+
 
