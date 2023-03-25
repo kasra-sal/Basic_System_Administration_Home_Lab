@@ -53,8 +53,6 @@ To have a better idea of what I've done in this project, I have made a basic top
     + [Installing Splunk Universal Forwarder](#installing-splunk-universal-forwarder)
     + [Peform Basic Account Security](#peform-basic-account-security)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 # Getting Started
 
