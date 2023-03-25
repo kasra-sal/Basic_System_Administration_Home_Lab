@@ -168,7 +168,7 @@ The intended purpose for these services is to be able to route new computer's tr
 
 https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b-b2a9-5fafa259b11e.mp4
 
-####To install RAS do the following:
+#### To install RAS do the following:
 
 1. On server manager, click on "add roles and features.
 2. On "Before You Begin" page click next.
@@ -180,7 +180,7 @@ https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b
 8. On "Role Services" select "Routing", click "add feature" and click next.
 9. On "Confirmation" page click install.
 
-####To configure RAS do the following:
+#### To configure RAS do the following:
 
 1. On server manager, click tools > Routing and Remote Access
 2. Right click on your domain controller and click "Configure and Enable Routing and Remote Access"
@@ -270,6 +270,7 @@ New-AdUser -AccountPassword $pass -GivenName $first -Surname $last -Name $line -
 Although this step could've been done with a pxe image, I decided to keep it simple and use a normal Windows 10 ISO. One thing to note is that make sure that this VM does not have access to the internet. This allows us to bypass the "sign in with a microsoft account step" and allows the installtion to be smoother.
 
 Another thing to note is that not all versions of windows can join an AD domain. Only the following versions are appropriate for our lab.
+
 https://user-images.githubusercontent.com/118489496/227679249-b6be490e-879a-467b-a31b-d72f2bc771d0.mp4
 
 https://user-images.githubusercontent.com/118489496/227679251-e26f6a5f-eea4-4f59-bbda-4474dbafdbf3.mp4
