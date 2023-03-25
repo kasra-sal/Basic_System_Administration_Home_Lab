@@ -189,4 +189,89 @@ https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b
 5. On "NAT Internet Connection" select the network interface that is internet facing. To make this easier, it's the adapter that was not manually configured earlier. 
 6. On "Completing the Routing and Remote Access Server Setup" Click Finish.
 
+### Installing and Configuring DHCP
+
+To make the process as dynamic as possible, I decided to install DHCP on my domain controller. This way any new device that connects to the vmnet3 network, will be able to obtain an ip address from the DHCP server in this case being DC1. for the sake of simplicity, I avoided making exclusions or making it too complicated however you could exclude certain address ranges on your DHCP scope. 
+
+https://user-images.githubusercontent.com/118489496/227656290-f807c845-ec84-4d03-a6b9-5d8d32d551b7.mp4
+
+#### To Install DHCP do the following:
+
+1. On server manager, click on "add roles and features.
+2. On "Before You Begin" page click next.
+3. On "Installation Type" page click next.
+4. On "Server Selection" page choose your server and click next.
+5. On "Server Roles" page, select "DHCP" and click next.
+6. On "Features" page click next.
+7. On "DHCP Server" page click next.
+8. On "Confirmation" page click install.
+
+#### To configure DHCP do the following:
+
+1. On server manager, click tools > DHCP
+2. Expand your domain.
+3. Right click on IPv4 > New Scope ...
+4. Click Next
+5. Enter the name you want to give this scope. i.e "Internal_Network_Scope"
+6. Enter the IP range you want the DHCP server to distribute.
+7. Under subnet mask, make sure you input the correct number. To simplify this procedure, think about how many hosts you want to have and use the formula (2^n)-2 to get the correct amount of hosts. Once you find this number, subtract it from 32 and that will be your subnet mask. As an example:
+  - Hosts needed = 254
+  - 2^8 = 256, 256 - 2 = 254. 32 - 8 = /24 => 255.255.255.0 
+8. On "Add Exclusions and Delay, you could add your own exclusions, however for this lab I decided to not include any.
+9. On "Lease Duration" select an appropriate duration. Think about it these scenario:
+  - Scenario 1: A cafeteria has a public wifi. Customers would walk in to the cafeteria and connect to the wifi receiving their addresses from the DHCP server. At the end of the night they leave and might not come back the next day. This causes issues with new customers as DHCP server allocates the address to the specific device and is reserving it until lease duration expires, however there are more customers walking the next day and yet all of the addresses are reserved for those customers who may never come back. In this case a shorter lease duration is more appropriate.
+  - Scenario 2: A small business has setup their electronics and have 30 - 80 devices. These devices are stationary and do not leave the premise. So the IP addresses assigned are being used whenever someone uses these devices. In this scenario it's more appropriate to make lease duration longer.
+ - For the sake of simplicity, I have set DHCP lease duration to 3 days.
+10. On "Configure DHCP Options" page click Next.
+11. On "Router (Default Gateway)" page enter the address of the router or device that you want the network to be routed to. In this case DC1's address (172.16.0.1)
+12. On "Domain Nmae and DNS Servers" ake sure your DC1's address is at the top and click next.
+13. Feel free to ignore WINS Servers or remove any addresses there. I will not be using WINS server for this project.
+14. On "Activate Scope" click Next.
+
+Now our new VMs should be able to obtain IP address from DC1'S DHCP server and gain access to the internet.
+
+### Populating Active Directory Users using Powershell
+
+Next step is to simulate an basic work environment. To do this I decided to make a basic powershell script that would automatically add users to a specific OU from a text document containting full names. It's worth noting that this could also be done through using CSVDE tool. 
+
+https://user-images.githubusercontent.com/118489496/227679156-feba7ce2-9df6-410b-9ad9-d37e20e7b4e0.mp4
+
+With that being said please refer to the code provided inside the repo.
+This script requires a text document that contains full names based on the following :
+```
+firstname lastname
+John Doe
+James Pappas
+```
+
+Once you have populated the text document, you could change $path variable to better fit your domain name and OU. 
+```
+i.e. $path = "OU=Ou_name, DC=your_domain, DC=your_domain_root" $path = "OU=Finance,DC=Financialworld,DC=com"
+```
+Once you have set that up the script will convrt initial code as SecureString.
+```
+$pass = ConvertTo-SecureString -String $password -AsPlainText -Force
+```
+Next it will iterate and split each line into two. Once the split has been processed, it will store first index of the list to $first variable and second index to $last variable 
+```
+$first = $line.split(" ")[0].ToLower()
+$last = $line.split(" ")[1].ToLower()
+```
+Then it will create a Sam Account Name by joining first name and last name using "."
+```
+$username = "$first.$last"
+```
+Lastly it will create the new user. Note that there is a "ChangePasswordAtLogon" parameter used to provide flexibility and security for users.
+```
+New-AdUser -AccountPassword $pass -GivenName $first -Surname $last -Name $line -SamAccountName $username -UserPrincipalName $username -Enabled $True -Path $path -ChangePasswordAtLogon $true```
+```
+### Installing AD Windows Operating System
+
+Although this step could've been done with a pxe image, I decided to keep it simple and use a normal Windows 10 ISO. One thing to note is that make sure that this VM does not have access to the internet. This allows us to bypass the "sign in with a microsoft account step" and allows the installtion to be smoother.
+
+Another thing to note is that not all versions of windows can join an AD domain. Only the following versions are appropriate for our lab.
+https://user-images.githubusercontent.com/118489496/227679249-b6be490e-879a-467b-a31b-d72f2bc771d0.mp4
+
+https://user-images.githubusercontent.com/118489496/227679251-e26f6a5f-eea4-4f59-bbda-4474dbafdbf3.mp4
+
 
