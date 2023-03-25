@@ -21,6 +21,41 @@ To have a better idea of what I've done in this project, I have made a basic top
 
 ![DeepinScreenshot_select-area_20230321162454](https://user-images.githubusercontent.com/118489496/226732350-c9bce8b7-6a25-407d-b445-6df55625e2ba.png)
 
+# Table of Contents
+- [Basic_System_Administration_Home_Lab](#basic-system-administration-home-lab)
+  * [What Should I take Away From This Project?](#what-should-i-take-away-from-this-project-)
+  * [Network Topology](#network-topology)
+- [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Gathering The Required ISO Images](#gathering-the-required-iso-images)
+  * [Github Installation](#github-installation)
+  * [Cloning This Repository](#cloning-this-repository)
+  * [Step-By-Step Installation](#step-by-step-installation)
+    + [Setting up Windows Server](#setting-up-windows-server)
+    + [Setting Up Network Adapters Within Windows Server](#setting-up-network-adapters-within-windows-server)
+    + [Active Directory Setup](#active-directory-setup)
+      - [Installing AD DS](#installing-ad-ds)
+      - [Promoting Server to Become a Domain Controller](#promoting-server-to-become-a-domain-controller)
+    + [Domain Admin Creation](#domain-admin-creation)
+    + [Installing and Configuring RAS/NAT](#installing-and-configuring-ras-nat)
+      - [To install RAS do the following:](#to-install-ras-do-the-following-)
+      - [To configure RAS do the following:](#to-configure-ras-do-the-following-)
+    + [Installing and Configuring DHCP](#installing-and-configuring-dhcp)
+      - [To Install DHCP do the following:](#to-install-dhcp-do-the-following-)
+      - [To configure DHCP do the following:](#to-configure-dhcp-do-the-following-)
+    + [Populating Active Directory Users using Powershell](#populating-active-directory-users-using-powershell)
+    + [Installing AD Windows Operating System](#installing-ad-windows-operating-system)
+    + [Joining New Windows VM to the domain](#joining-new-windows-vm-to-the-domain)
+    + [Basic Installtion Finished](#basic-installtion-finished)
+  * [Installing Applications through Group Policy](#installing-applications-through-group-policy)
+    + [Making Shared Folder](#making-shared-folder)
+    + [Configuring a new GPO](#configuring-a-new-gpo)
+    + [Installing Splunk Universal Forwarder](#installing-splunk-universal-forwarder)
+    + [Peform Basic Account Security](#peform-basic-account-security)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 # Getting Started
 
 ## Prerequisites
