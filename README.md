@@ -38,17 +38,17 @@ To have a better idea of what I've done in this project, I have made a basic top
       - [Promoting Server to Become a Domain Controller](#promoting-server-to-become-a-domain-controller)
     + [Domain Admin Creation](#domain-admin-creation)
     + [Installing and Configuring RAS/NAT](#installing-and-configuring-ras-nat)
-      - [To install RAS do the following:](#to-install-ras-do-the-following-)
-      - [To configure RAS do the following:](#to-configure-ras-do-the-following-)
+      - [Installing RAS](#to-install-ras-do-the-following-)
+      - [Configuring RAS](#to-configure-ras-do-the-following-)
     + [Installing and Configuring DHCP](#installing-and-configuring-dhcp)
-      - [To Install DHCP do the following:](#to-install-dhcp-do-the-following-)
-      - [To configure DHCP do the following:](#to-configure-dhcp-do-the-following-)
+      - [Installing DHCP](#to-install-dhcp-do-the-following-)
+      - [Configuring DHCP](#to-configure-dhcp-do-the-following-)
     + [Populating Active Directory Users using Powershell](#populating-active-directory-users-using-powershell)
     + [Installing AD Windows Operating System](#installing-ad-windows-operating-system)
     + [Joining New Windows VM to the domain](#joining-new-windows-vm-to-the-domain)
     + [Basic Installtion Finished](#basic-installtion-finished)
   * [Installing Applications through Group Policy](#installing-applications-through-group-policy)
-    + [Making Shared Folder](#making-shared-folder)
+    + [Making a Shared Folder](#making-shared-folder)
     + [Configuring a new GPO](#configuring-a-new-gpo)
     + [Installing Splunk Universal Forwarder](#installing-splunk-universal-forwarder)
     + [Peform Basic Account Security](#peform-basic-account-security)
@@ -358,7 +358,7 @@ https://user-images.githubusercontent.com/118489496/227703879-f7acbb61-ed3a-4a33
 
 Follow the steps below to configure shared folders and install programs using GPO:
 
-### Making Shared Folder
+### Making a Shared Folder
 Making a shared folder is easy. For the sake of simplicity we will keep the shared folder on the same storage as the server.
 
 1. Go to your C drive.
