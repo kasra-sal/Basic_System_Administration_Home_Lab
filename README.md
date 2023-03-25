@@ -291,3 +291,7 @@ Once the Windows VM is done installing, we need to join it to the domain we crea
 
 https://user-images.githubusercontent.com/118489496/227680136-f0663630-4c0a-49c5-9bd6-def4c2f10ed4.mp4
 
+To view the new computer joining the domain you could go to Tools > Active Directory users and computers > Computers
+
+https://user-images.githubusercontent.com/118489496/227680249-8747cf13-7d94-41dd-8f05-13cf688db402.mp4
+
