@@ -15,12 +15,13 @@ There are a couple things worth mentioning about this project:
 Enough with the dry text, Following sections should get us started before we move on to configuring this homelab.
 
 
-## Network Topology
+# Network Topology
 
 To have a better idea of what I've done in this project, I have made a basic topology of devices, network configurations and general view of how the entire network would look after implementing this project. 
 
 ![DeepinScreenshot_select-area_20230321162454](https://user-images.githubusercontent.com/118489496/226732350-c9bce8b7-6a25-407d-b445-6df55625e2ba.png)
 
+# Table of Content
 - [Basic_System_Administration_Home_Lab](#basic-system-administration-home-lab)
   * [What Should I take Away From This Project?](#what-should-i-take-away-from-this-project-)
   * [Network Topology](#network-topology)
