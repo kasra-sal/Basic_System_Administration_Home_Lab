@@ -89,8 +89,8 @@ Use the following command to clone this repository
 git clone https://github.com/kasra-sal/Basic_System_Administration_Home_Lab.git
 ```
 
-## Step-By-Step Installation
-### Setting up Windows Server
+# Step-By-Step Installation
+## Setting up Windows Server
 Setting up the Windows Server is a straight forward procedure:
  1. Create a new virtual machine
  2. Choose the ISO image you have previously downloaded
@@ -112,7 +112,7 @@ Setting up the Windows Server is a straight forward procedure:
   - One thing to note is that if you choose to install any version that doesn't have "Desktop experince" you will not be given a GUI.
 ![1](https://user-images.githubusercontent.com/118489496/227009173-eb12b163-548b-4629-a127-8af5aedea7a1.gif)
 
-### Setting Up Network Adapters Within Windows Server
+## Setting Up Network Adapters Within Windows Server
 This is step is crucial so make sure your addressing is correct. We will be assigning an address to "vmnet3" adapter on windows server for when we configure RAS and NAT for our AD computers.
 
 https://user-images.githubusercontent.com/118489496/227038073-ac232c43-c61e-462a-8303-b9a60a84ad9c.mp4
@@ -135,9 +135,9 @@ press "OK" and close adapter options window.
 
 The reason behind this step is to be able to make the windows server a DHCP server aswell as a NAT server so that our AD computers have to go through the server before they can reach the internet. This allows for better control over the devices as well as maintaining security by implementing more security measures that I will showcase on the upcoming projects.
 
-### Active Directory Setup
+## Active Directory Setup
 Next step is to setup active directory. Installing Active Directory Domain Services is very simple:
-#### Installing AD DS 
+### Installing AD DS 
 
 https://user-images.githubusercontent.com/118489496/227043489-9134658b-e620-4cb7-a57a-3b81d75142a6.mp4
 
@@ -149,7 +149,7 @@ https://user-images.githubusercontent.com/118489496/227043489-9134658b-e620-4cb7
 6. On "Features" page click next.
 7. On "AD DS" page click next.
 8. On "Confirmation" page click install.
-#### Promoting Server to Become a Domain Controller
+### Promoting Server to Become a Domain Controller
 
 Once the AD DS installtion is done, you need to promote the server to become a domain controller. 
 
@@ -163,7 +163,7 @@ https://user-images.githubusercontent.com/118489496/227045085-b61cc58e-94ec-4b41
 6. On "Review Options" page click next.
 7. On "Prerequisites Check" page click install.
 
-### Domain Admin Creation
+## Domain Admin Creation
 
 It is good security practice to make a second tier admin that has necessary permissions to perform certain actions but restricted to a defined scope. For this reason I made a user named "John Doe" and assigned the role "Domain Admin" to it. 
 
@@ -193,7 +193,7 @@ Once you restart the server you should be able to login using John Does logon na
 
 https://user-images.githubusercontent.com/118489496/227645021-bbb03c03-c8e6-4847-8726-abb2362963a0.mp4
 
-### Installing and Configuring RAS/NAT 
+## Installing and Configuring RAS/NAT 
 
 ![DeepinScreenshot_select-area_20230321143326](https://user-images.githubusercontent.com/118489496/227645739-fc9b6614-2c3a-46e7-96b6-01bc9bbdabfc.png)
 
@@ -201,7 +201,7 @@ The intended purpose for these services is to be able to route new computer's tr
 
 https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b-b2a9-5fafa259b11e.mp4
 
-#### To install RAS do the following:
+### To install RAS do the following:
 
 1. On server manager, click on "add roles and features.
 2. On "Before You Begin" page click next.
@@ -213,7 +213,7 @@ https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b
 8. On "Role Services" select "Routing", click "add feature" and click next.
 9. On "Confirmation" page click install.
 
-#### To configure RAS do the following:
+### To configure RAS do the following:
 
 1. On server manager, click tools > Routing and Remote Access
 2. Right click on your domain controller and click "Configure and Enable Routing and Remote Access"
@@ -222,13 +222,13 @@ https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b
 5. On "NAT Internet Connection" select the network interface that is internet facing. To make this easier, it's the adapter that was not manually configured earlier. 
 6. On "Completing the Routing and Remote Access Server Setup" Click Finish.
 
-### Installing and Configuring DHCP
+## Installing and Configuring DHCP
 
 To make the process as dynamic as possible, I decided to install DHCP on my domain controller. This way any new device that connects to the vmnet3 network, will be able to obtain an ip address from the DHCP server in this case being DC1. for the sake of simplicity, I avoided making exclusions or making it too complicated however you could exclude certain address ranges on your DHCP scope. 
 
 https://user-images.githubusercontent.com/118489496/227656290-f807c845-ec84-4d03-a6b9-5d8d32d551b7.mp4
 
-#### To Install DHCP do the following:
+### To Install DHCP do the following:
 
 1. On server manager, click on "add roles and features.
 2. On "Before You Begin" page click next.
@@ -239,7 +239,7 @@ https://user-images.githubusercontent.com/118489496/227656290-f807c845-ec84-4d03
 7. On "DHCP Server" page click next.
 8. On "Confirmation" page click install.
 
-#### To configure DHCP do the following:
+### To configure DHCP do the following:
 
 1. On server manager, click tools > DHCP
 2. Expand your domain.
@@ -263,7 +263,7 @@ https://user-images.githubusercontent.com/118489496/227656290-f807c845-ec84-4d03
 
 Now our new VMs should be able to obtain IP address from DC1'S DHCP server and gain access to the internet.
 
-### Populating Active Directory Users using Powershell
+## Populating Active Directory Users using Powershell
 
 Next step is to simulate an basic work environment. To do this I decided to make a basic powershell script that would automatically add users to a specific OU from a text document containting full names. It's worth noting that this could also be done through using CSVDE tool. 
 
@@ -298,7 +298,7 @@ Lastly it will create the new user. Note that there is a "ChangePasswordAtLogon"
 ```
 New-AdUser -AccountPassword $pass -GivenName $first -Surname $last -Name $line -SamAccountName $username -UserPrincipalName $username -Enabled $True -Path $path -ChangePasswordAtLogon $true```
 ```
-### Installing AD Windows Operating System
+## Installing AD Windows Operating System
 
 Although this step could've been done with a pxe image, I decided to keep it simple and use a normal Windows 10 ISO. One thing to note is that make sure that this VM does not have access to the internet. This allows us to bypass the "sign in with a microsoft account step" and allows the installtion to be smoother.
 
@@ -308,7 +308,7 @@ https://user-images.githubusercontent.com/118489496/227679249-b6be490e-879a-467b
 
 https://user-images.githubusercontent.com/118489496/227679251-e26f6a5f-eea4-4f59-bbda-4474dbafdbf3.mp4
 
-### Joining New Windows VM to the domain
+## Joining New Windows VM to the domain
 
 https://user-images.githubusercontent.com/118489496/227680122-d9abe1af-d862-44f7-8e4a-abfa6ee6e603.mp4
 
@@ -328,7 +328,7 @@ To view the new computer joining the domain you could go to Tools > Active Direc
 
 https://user-images.githubusercontent.com/118489496/227680249-8747cf13-7d94-41dd-8f05-13cf688db402.mp4
 
-### Basic Installtion Finished
+## Basic Installtion Finished
 
 Now that we have everything setup, we should have the following functioning:
 1. A functioning Windows Servr that has the following features installed and functional:
@@ -343,7 +343,7 @@ Now that we have everything setup, we should have the following functioning:
 With that being said all that's left is to install Splunk Universal Forwarder on the vm using group policy. 
 Note that if you haven't setup a splunk server, please do so or refer to my [Ubuntu Splunk Server](https://github.com/kasra-sal/Splunk-Environment-Setup) repo for more guide.
 
-## Installing Applications through Group Policy
+# Installing Applications through Group Policy
 
 The reason behind this step is to simulate how an administrator would install programs on AD computers automatically without having to configure each pc with required program. 
 
@@ -358,7 +358,7 @@ https://user-images.githubusercontent.com/118489496/227703879-f7acbb61-ed3a-4a33
 
 Follow the steps below to configure shared folders and install programs using GPO:
 
-### Making a Shared Folder
+## Making a Shared Folder
 Making a shared folder is easy. For the sake of simplicity we will keep the shared folder on the same storage as the server.
 
 1. Go to your C drive.
@@ -374,7 +374,7 @@ Making a shared folder is easy. For the sake of simplicity we will keep the shar
 11. Save the network path present under "Sharing" tab.
 12. Move the programs you want to install to this folder. In the case of this project, move google chrome and Splunk Universal Forwarder's msi installer.
 
-### Configuring a new GPO
+## Configuring a new GPO
 computer vs user
 1. On Server Manager, click tools > Group Policy Management
 2. Right click "Test_User_Computers" or your new OU for DOmain computers and select "New GPO"
@@ -390,7 +390,7 @@ Now all you have to do is to login to the AD Computer created previously "AD Jor
 ```
 gpupdate /force
 ```
-### Installing Splunk Universal Forwarder
+## Installing Splunk Universal Forwarder
 Installing Splunk Universal Forwarder is a bit different. Since the installtion requires acceptance of license and certain entries such as username, password and deployment server, we need to configure this using [orca](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/). 
 
 1. Open orca
@@ -418,7 +418,7 @@ gpupdate /force
 ```
 https://user-images.githubusercontent.com/118489496/227703931-0dd0a5c4-1714-431c-86dd-5ed81d730608.mp4
 
-### Peform Basic Account Security
+## Peform Basic Account Security
 
 To have a more enforced policy, we will take advantage of policy hierarchy. To do this we will make a policy at the highest level, set general password policies and then enforce it down to lower level policies.
 
