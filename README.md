@@ -275,4 +275,19 @@ https://user-images.githubusercontent.com/118489496/227679249-b6be490e-879a-467b
 
 https://user-images.githubusercontent.com/118489496/227679251-e26f6a5f-eea4-4f59-bbda-4474dbafdbf3.mp4
 
+### Joining New Windows VM to the domain
+
+https://user-images.githubusercontent.com/118489496/227680122-d9abe1af-d862-44f7-8e4a-abfa6ee6e603.mp4
+
+Once the Windows VM is done installing, we need to join it to the domain we created previously. To do this do the following steps:
+1. In search bar type "about your pc".
+2. On the right panel click on "Rename this PC (advanced)".
+3. Beside "to rename this computer or change its domain or workgroup" click change.
+4. Change "Computer name" and then select "Domain" under "Member of".
+5. Type in your domain name.
+6. Click OK.
+7. Enter a user's information to join the domain. In this example I used one of the users that I created using the script.
+8. Restart your computer and login with your username.
+
+https://user-images.githubusercontent.com/118489496/227680136-f0663630-4c0a-49c5-9bd6-def4c2f10ed4.mp4
 
