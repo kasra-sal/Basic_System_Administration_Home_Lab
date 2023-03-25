@@ -1,18 +1,17 @@
 # Basic_System_Administration_Home_Lab
 
-Microsoft's Active Directory provides a powerful tool for centralized management of user accounts, computer systems and such resources in a Windows-based network environment. This project will focus on setting up Active Directory on a Windows Server virtual machine, configuring organizational units, automating user addition, using group policies to install applications on each PC, and connecting the managed PCs and accounts to Splunk server previously made on my [splunk server repo](https://github.com/kasra-sal/Splunk-Environment-Setup.git) using Splunk Universal Forwarder.
+Microsoft's Active Directory offers centralized management of user accounts, computer systems, and other resources within Windows-based networks. The focus of this project is on setting up Active Directory on a Windows Server virtual machine, configuring organizational units, automating user addition, installing applications on each PC using group policies, and connecting the managed PCs and accounts to a previously established Splunk server on my Splunk server repository through the use of Splunk Universal Forwarder.
 
-## What Should I take Away From This Project?
-One of the most important things about this project is setting basic policies and automating processes to reduce the likelyhood of human error while configuring these services. I have provided a step-by-step procedure on how to configure and utilize basic system administration configurations, best practices and basic approach to Active Directory services.
+The key takeaway from this project is the implementation of basic policies and automated processes to minimize the potential for human error when configuring these services. This project outlines a step-by-step procedure for configuring and utilizing basic system administration configurations, best practices, and a fundamental approach to Active Directory services.
 
-There are a couple things worth mentioning about this project:
+There are several important points to note about this project:
 
-1. This project is intended to be a "bone structure" for future projects that I am working on. However it is sufficient enough to create a general idea of how a small business would function using basic AD.
-2. There will be a basic demonstration of tools such as AD DS, GPOs, RAS and DHCP however they are done in a way that if you want to scale it up or configure it to your own needs, you could simply follow the steps and reconfigure or edit the script for bette customization of content.
-3. I have provided a basic script to add users, however you could also use CSVDE tool to automate aswell if you are not comfortable with the basic powershell script I have provided.
-4. A lot of settings and policies are redacted as they are outside of the scope of this project. I will be making more projects that will require such configs.
+1. It serves as a "bone structure" for future projects, but it is also sufficient to provide a general idea of how a small business would operate using basic AD.
+2. The project includes a basic demonstration of tools such as AD DS, GPOs, RAS, and DHCP. However, these are presented in a way that allows for easy scalability and customization to fit your specific needs.
+3. While a basic script to add users is provided, the CSVDE tool can also be used for automation if the provided PowerShell script is not suitable.
+4. Numerous settings and policies are redacted, as they fall outside the scope of this project. Future projects will cover these configurations.
 
-Enough with the dry text, Following sections should get us started before we move on to configuring this homelab.
+Moving on from the introductory text, the following sections will provide instructions on configuring this homelab.
 
 
 ## Network Topology
