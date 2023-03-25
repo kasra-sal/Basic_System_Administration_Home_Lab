@@ -295,3 +295,30 @@ To view the new computer joining the domain you could go to Tools > Active Direc
 
 https://user-images.githubusercontent.com/118489496/227680249-8747cf13-7d94-41dd-8f05-13cf688db402.mp4
 
+### Basic Installtion Finished
+
+Now that we have everything setup, we should have the following functioning:
+1. A functioning Windows Servr that has the following features installed and functional:
+  - Active Directory Domain Services
+  - Remote Access Services (RAS) / NAT
+  - DHCP
+2. Users created in the "Test_Users" OU 
+3. Newly domain joined Windows VM visible under "Computers"
+4. VM has network access using vmnet3 adapter.
+
+
+With that being said all that's left is to install Splunk Universal Forwarder on the vm using group policy. 
+Note that if you haven't setup a splunk server, please do so or refer to my [Ubuntu Splunk Server](https://github.com/kasra-sal/Splunk-Environment-Setup) repo for more guide.
+
+## Installing Applications through Group Policy
+
+The reason behind this step is to simulate how an administrator would install programs on AD computers automatically without having to configure each pc with required program. 
+
+Here we will install google chrome and splunk universal forwarder on domain pcs through gpo. Something to keep in mind is that I have moved the vm we created earlier to a new organizational unit as demonstrated in the video. So for the sake of proper flow make sure you follow the same order and settings.
+
+
+before we begin, we need to create a shared folder on our DC and make sure the permissions are setup so that domain computers can "Read" files. Furthermore we need to ensure that when installing Splunk Universal Forwarder through gpo, we need to use "orca" which comes with [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/). One orca is installed you should update Splunk Universal Forwarder and then install it using GPO. 
+
+Follow the steps below to configure shared folders and install programs using GPO:
+### Making Shared Folder
+1. 
