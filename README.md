@@ -15,7 +15,7 @@ There are a couple things worth mentioning about this project:
 Enough with the dry text, Following sections should get us started before we move on to configuring this homelab.
 
 
-# Network Topology
+## Network Topology
 
 To have a better idea of what I've done in this project, I have made a basic topology of devices, network configurations and general view of how the entire network would look after implementing this project. 
 
