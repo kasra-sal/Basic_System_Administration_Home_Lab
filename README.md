@@ -319,6 +319,68 @@ Here we will install google chrome and splunk universal forwarder on domain pcs 
 
 before we begin, we need to create a shared folder on our DC and make sure the permissions are setup so that domain computers can "Read" files. Furthermore we need to ensure that when installing Splunk Universal Forwarder through gpo, we need to use "orca" which comes with [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/). One orca is installed you should update Splunk Universal Forwarder and then install it using GPO. 
 
+
+https://user-images.githubusercontent.com/118489496/227703879-f7acbb61-ed3a-4a33-95ce-43e4dea6c0a8.mp4
+
+
 Follow the steps below to configure shared folders and install programs using GPO:
+
 ### Making Shared Folder
-1. 
+Making a shared folder is easy. For the sake of simplicity we will keep the shared folder on the same storage as the server.
+
+1. Go to your C drive.
+2. Create a new folder named "Shared_Folder".
+3. Right click on this folder and go to properties.
+4. Click on "Sharing" tab.
+5. Click on Advanced Sharing.
+6. Select "Share this folder" (Note: addig $ at the end of share name will make it hidden, yet discoverable if full path is specifed)
+7. Click on Permissions > Add.
+8. Under "Enter the object names to select" type "Domain Computers".
+9. Remove "Everyone" to limit access to this folder. Click Apply.
+10. Once you close the advanced share tab, click on share and repeat step 7-9.
+11. Save the network path present under "Sharing" tab.
+12. Move the programs you want to install to this folder. In the case of this project, move google chrome and Splunk Universal Forwarder's msi installer.
+
+### Configuring a new GPO
+computer vs user
+1. On Server Manager, click tools > Group Policy Management
+2. Right click "Test_User_Computers" or your new OU for DOmain computers and select "New GPO"
+3. Type a name for this GPO. In this case PC_SOFTWARE_INIT
+4. Right click on the newly created GPO and choose "Edit"
+5. Expand Computer Configuration > Policies > Software Settings.
+6. Right click on the white space and choose New > Package
+7. Enter the address you copied from shared folder into the address bar
+8. Select your program. In this case google chrome.
+9. You are done.
+
+Now all you have to do is to login to the AD Computer created previously "AD Jorb", open up command prompt as administrator and type 
+```
+gpupdate /force
+```
+### Installing Splunk Universal Forwarder
+Installing Splunk Universal Forwarder is a bit different. Since the installtion requires acceptance of license and certain entries such as username, password and deployment server, we need to configure this using [orca](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/). 
+
+1. Open orca
+2. Click File > Open and choose the Splunk Universal Forwarder's installation file.
+3. IMPORTANT: right after you finish step 2, click Transform > New Transform.
+4. Scroll down on the left panel and select "Property"
+5. Scroll down untill you see "AGREETOLICENSE" and change the value to "Yes"
+6. Right click anywhere, select Add Row.
+7. Enter "SPLUNKADMIN" as property and enter your username as value. In this case "TEST1".
+8. Repeat steps 6 and 7 for the following information:
+  - SPLUNKPASSWORD : your_password(In this case TESTpass123!)
+  - DEPLOYMENTSERVER: Address_of_splunk_server:8089 (In this case 172.16.65.132:8089)
+9. Click Transform > Generate Transform
+10. Save it under the shared folder
+11. Go back to the Group Policy Management window, right click on the white space and choose New > Package
+12. select Splunk Universal Forwarder's installtion file
+13. Under "select deployment method" select Advanced
+14. Switch over to "Modifications" and click Add
+15. Select the newly created MST file using orca.
+16. Press OK
+
+And you are done. Head over to the VM, open up cmd and type
+```
+gpupdate /force
+```
+
