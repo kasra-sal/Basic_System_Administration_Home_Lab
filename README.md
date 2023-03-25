@@ -383,4 +383,8 @@ And you are done. Head over to the VM, open up cmd and type
 ```
 gpupdate /force
 ```
+https://user-images.githubusercontent.com/118489496/227703931-0dd0a5c4-1714-431c-86dd-5ed81d730608.mp4
+
+### Peform Basic Account Security
+
 
