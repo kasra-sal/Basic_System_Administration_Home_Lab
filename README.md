@@ -91,49 +91,53 @@ git clone https://github.com/kasra-sal/Basic_System_Administration_Home_Lab.git
 
 # Step-By-Step Installation
 ## Setting up Windows Server
-Setting up the Windows Server is a straight forward procedure:
- 1. Create a new virtual machine
- 2. Choose the ISO image you have previously downloaded
- 3. If you are using Vmware, you will be prompted with easy install information; Hence fill in required information and leave the Windows product key box empty.
- 4. Give it the location you want the vm to reside in
- 5. Allocate sufficient disk size, RAM and cpu cores (Refer to this [article](https://learn.microsoft.com/en-us/windows-server/get-started/hardware-requirements) to find minimum requirements. 
- 6. Once the template is done:
- ![3](https://user-images.githubusercontent.com/118489496/227008480-a2aabd3c-32b1-4bcf-83f9-2b54b5cd84eb.gif)
-    - Click on "Edit" at the top left corner of vmware tray.
-    - Click on "Virtual Network Editor"
-    - Click on "Add Network" (On Windows version of vmware, you may require admin permissions)
-    - Set "Network name" to vmnet 3 (This could be any number but I have set it as vmnet 3. Refer to the topology {link})
-    - Select "Host-only" under "Type".
-    - Once you created the network adapter, click on "vmnet3", make sure that you deselect "Use local DHCP service to distribute IP addresses to VMs.
-    - Click save.
-    - Go back to your virtual machine, click on "Edit Virtual Machine Settings". Under "Hardware" tab click on "add" and add a new adapter.
-    - Finally set that adapter as vmnet 3.
-7. Launce the virtual machine and install windows server.
-  - One thing to note is that if you choose to install any version that doesn't have "Desktop experince" you will not be given a GUI.
+Setting up the Windows Server is a straightforward process that involves the following steps:
+
+1. Create a new virtual machine.
+2. Select the ISO image that you previously downloaded.
+3. If you are using VMware, you will be prompted with easy installation information. Fill in the required information and leave the Windows product key box empty.
+4. Choose the location where you want the VM to reside.
+5. Allocate sufficient disk size, RAM, and CPU cores. Refer to this article (https://learn.microsoft.com/en-us/windows-server/get-started/hardware-requirements) to determine the minimum requirements.
+6. Once the template is complete, follow these steps to configure the virtual network editor:
+ - Click on __Edit__ at the top left corner of the VMware tray.
+ - Click on __Virtual Network Editor__.
+ - Click on __Add Network__ (On the Windows version of VMware, you may require admin permissions).
+ - Set the __Network name__ to vmnet 3 (This could be any number, but I have set it as vmnet 3. Refer to the topology link).
+ - Select __Host-only__ under __Type__.
+ - Once you have created the network adapter, click on __vmnet3__ and make sure that you deselect __Use local DHCP service to distribute IP addresses to VMs__.
+ - Click on __Save__.
+ - Go back to your virtual machine, click on __Edit Virtual Machine Settings__, and under the __Hardware__ tab, click on __Add__ and add a new adapter.
+ - Finally, set that adapter as vmnet 3.
+7. Launch the virtual machine and install Windows Server.
+
+Note that if you choose to install any version that doesn't have "Desktop Experience", you will not be given a GUI.
+
 ![1](https://user-images.githubusercontent.com/118489496/227009173-eb12b163-548b-4629-a127-8af5aedea7a1.gif)
 
 ## Setting Up Network Adapters Within Windows Server
-This is step is crucial so make sure your addressing is correct. We will be assigning an address to "vmnet3" adapter on windows server for when we configure RAS and NAT for our AD computers.
+This step is crucial, so it is essential to ensure that the addressing is correct. The goal is to assign an address to the __vmnet3__ adapter on Windows Server to configure RAS and NAT for our AD computers.
 
 https://user-images.githubusercontent.com/118489496/227038073-ac232c43-c61e-462a-8303-b9a60a84ad9c.mp4
 
-- To find the adapter options, either right click on network icon on the task bar and click "Open Network and Internet settings" or type "Network and Internet" in your settings and click on "Change Adapter Options".
-- Once you have opened up your adapter options, locate the two adapters and browse through their addresses. 
-- You could tell which one is your vmnet 3 and which one is your NAT adapter by looking at the ipv4 address within the status page.
-- Once you found which one is internal adapter (vmnet3), right click on that adapter and choose "properties"
-- double click "Internet Protocol Version 4" and enter information as follow:
-  -   IP address : 172.16.0.1 (you could set your own address aslong as it doesn't overlap other addresses)
-  -   Subnet mask: 255.255.255.0 (which is a /24 subnet holding up to 254 addresses available to be assigned to hosts)
-  -   Leave default gateway empty
-  -   Preferred DNS : 172.16.0.1
-  -   Alternate DNS : 127.0.0.1
- Once you have changed the addresses, your prompt should look similar to the following picture:
- 
+Here's how you can do it:
+
+- To find the adapter options, either right-click on the network icon on the taskbar and click __Open Network and Internet settings__ or type __Network and Internet__ in your settings and click on __Change Adapter Options.__
+- Once you have opened up your adapter options, locate the two adapters and browse through their addresses. You can tell which one is your vmnet3 and which one is your NAT adapter by looking at the IPv4 address within the status page.
+- Once you have found which one is the internal adapter (vmnet3), right-click on that adapter and choose __Properties.__
+- Double-click __Internet Protocol Version 4__ and enter the following information:
+    - IP address: 172.16.0.1 (you can set your own address as long as it doesn't overlap with other addresses)
+    - Subnet mask: 255.255.255.0 (which is a /24 subnet holding up to 254 addresses available to be assigned to hosts)
+    - Leave default gateway empty
+    - Preferred DNS: 172.16.0.1
+    - Alternate DNS: 127.0.0.1
+
+Once you have changed the addresses, your prompt should look similar to the picture shown below:
+
 ![5](https://user-images.githubusercontent.com/118489496/227037635-2bd3686e-c6de-45da-827f-d5f1aafc5349.png)
 
-press "OK" and close adapter options window.
+Press __OK__ and close the adapter options window.
 
-The reason behind this step is to be able to make the windows server a DHCP server aswell as a NAT server so that our AD computers have to go through the server before they can reach the internet. This allows for better control over the devices as well as maintaining security by implementing more security measures that I will showcase on the upcoming projects.
+The reason behind this step is to make the Windows Server a DHCP server and NAT server so that our AD computers have to go through the server before they can reach the internet. This allows for better control over the devices as well as maintaining security by implementing more security measures that I will showcase in the upcoming projects.
 
 ## Active Directory Setup
 Next step is to setup active directory. Installing Active Directory Domain Services is very simple:
