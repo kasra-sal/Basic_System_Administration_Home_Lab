@@ -22,8 +22,8 @@ To have a better idea of what I've done in this project, I have made a basic top
 
 # Table of Content
 - [Basic_System_Administration_Home_Lab](#basic-system-administration-home-lab)
-  * [What Should I take Away From This Project?](#what-should-i-take-away-from-this-project-)
   * [Network Topology](#network-topology)
+- [Table of Content](#table-of-content)
 - [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Gathering The Required ISO Images](#gathering-the-required-iso-images)
@@ -34,14 +34,17 @@ To have a better idea of what I've done in this project, I have made a basic top
   * [Setting Up Network Adapters Within Windows Server](#setting-up-network-adapters-within-windows-server)
   * [Active Directory Setup](#active-directory-setup)
     + [Installing AD DS](#installing-ad-ds)
-    + [Promoting Server to Become a Domain Controller](#promoting-server-to-become-a-domain-controller)
   * [Domain Admin Creation](#domain-admin-creation)
   * [Installing and Configuring RAS/NAT](#installing-and-configuring-ras-nat)
-    + [Installing RAS/NAT](#to-install-ras-do-the-following-)
-    + [Configuring RAS/NAT](#to-configure-ras-do-the-following-)
+  * [Installing RAS](#installing-ras)
+    + [To install RAS, follow these steps:](#to-install-ras--follow-these-steps-)
+  * [Configuring RAS](#configuring-ras)
+    + [To configure RAS, follow these steps:](#to-configure-ras--follow-these-steps-)
   * [Installing and Configuring DHCP](#installing-and-configuring-dhcp)
-    + [Installing DHCP](#to-install-dhcp-do-the-following-)
-    + [Configuring DHCP](#to-configure-dhcp-do-the-following-)
+  * [Installing DHCP](#installing-dhcp)
+    + [To install DHCP, follow these steps:](#to-install-dhcp--follow-these-steps-)
+  * [Configuring DHCP](#configuring-dhcp)
+    + [To configure DHCP, follow these steps:](#to-configure-dhcp--follow-these-steps-)
   * [Populating Active Directory Users using Powershell](#populating-active-directory-users-using-powershell)
   * [Installing AD Windows Operating System](#installing-ad-windows-operating-system)
   * [Joining New Windows VM to the domain](#joining-new-windows-vm-to-the-domain)
@@ -51,6 +54,8 @@ To have a better idea of what I've done in this project, I have made a basic top
   * [Configuring a new GPO](#configuring-a-new-gpo)
   * [Installing Splunk Universal Forwarder](#installing-splunk-universal-forwarder)
   * [Peform Basic Account Security](#peform-basic-account-security)
+
+
 
 
 
@@ -234,45 +239,47 @@ https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b
 6. On the __Completing the Routing and Remote Access Server Setup__ page, click Finish.
 
 ## Installing and Configuring DHCP
+To make the process as flexible as possible, DHCP is installed on the domain controller (DC1). This ensures that any new device that connects to the vmnet3 network is able to obtain an IP address from the DHCP server. To simplify the process, exclusions are avoided, but it is possible to exclude certain address ranges on your DHCP scope.
 
-To make the process as flexible as possible, DHCP is installed on the domain controller. This ensures that any new device that connects to the vmnet3 network is able to obtain an IP address from the DHCP server, in this case, DC1. For the sake of simplicity, I have avoided making exclusions or overcomplicating the process, although it is possible to exclude certain address ranges on your DHCP scope.
+## Installing DHCP
 
-https://user-images.githubusercontent.com/118489496/227656290-f807c845-ec84-4d03-a6b9-5d8d32d551b7.mp4
+### To install DHCP, follow these steps:
 
-### To Install DHCP do the following:
+1. On Server Manager, click on __Add Roles and Features.__
+2. On the __Before You Begin__ page, click next.
+3. On the __Installation Type__ page, click next.
+4. On the __Server Selection__ page, choose your server and click next.
+5. On the __Server Roles__ page, select __DHCP__ and click next.
+6. On the __Features__ page, click next.
+7. On the __DHCP Server__ page, click next.
+8. On the __Confirmation__ page, click install.
 
-1. On server manager, click on "add roles and features.
-2. On "Before You Begin" page click next.
-3. On "Installation Type" page click next.
-4. On "Server Selection" page choose your server and click next.
-5. On "Server Roles" page, select "DHCP" and click next.
-6. On "Features" page click next.
-7. On "DHCP Server" page click next.
-8. On "Confirmation" page click install.
+## Configuring DHCP 
 
-### To configure DHCP do the following:
+### To configure DHCP, follow these steps:
 
-1. On server manager, click tools > DHCP
+1. On Server Manager, click __Tools__ > __DHCP__.
 2. Expand your domain.
-3. Right click on IPv4 > New Scope ...
-4. Click Next
-5. Enter the name you want to give this scope. i.e "Internal_Network_Scope"
+3. Right-click on IPv4 > __New Scope...__.
+4. Click __Next__.
+5. Enter the name you want to give this scope, for example, __Internal_Network_Scope__.
 6. Enter the IP range you want the DHCP server to distribute.
-7. Under subnet mask, make sure you input the correct number. To simplify this procedure, think about how many hosts you want to have and use the formula (2^n)-2 to get the correct amount of hosts. Once you find this number, subtract it from 32 and that will be your subnet mask. As an example:
-  - Hosts needed = 254
-  - 2^8 = 256, 256 - 2 = 254. 32 - 8 = /24 => 255.255.255.0 
-8. On "Add Exclusions and Delay, you could add your own exclusions, however for this lab I decided to not include any.
-9. On "Lease Duration" select an appropriate duration. Think about it these scenario:
-  - Scenario 1: A cafeteria has a public wifi. Customers would walk in to the cafeteria and connect to the wifi receiving their addresses from the DHCP server. At the end of the night they leave and might not come back the next day. This causes issues with new customers as DHCP server allocates the address to the specific device and is reserving it until lease duration expires, however there are more customers walking the next day and yet all of the addresses are reserved for those customers who may never come back. In this case a shorter lease duration is more appropriate.
-  - Scenario 2: A small business has setup their electronics and have 30 - 80 devices. These devices are stationary and do not leave the premise. So the IP addresses assigned are being used whenever someone uses these devices. In this scenario it's more appropriate to make lease duration longer.
- - For the sake of simplicity, I have set DHCP lease duration to 3 days.
-10. On "Configure DHCP Options" page click Next.
-11. On "Router (Default Gateway)" page enter the address of the router or device that you want the network to be routed to. In this case DC1's address (172.16.0.1)
-12. On "Domain Nmae and DNS Servers" ake sure your DC1's address is at the top and click next.
-13. Feel free to ignore WINS Servers or remove any addresses there. I will not be using WINS server for this project.
-14. On "Activate Scope" click Next.
+7. Under subnet mask, input the correct number. To simplify this procedure, think about how many hosts you want to have and use the formula (2^n)-2 to get the correct amount of hosts. Once you find this number, subtract it from 32 and that will be your subnet mask. For example:
+    - Hosts needed = 254
+    - 2^8 = 256, 256 - 2 = 254. 32 - 8 = /24 => 255.255.255.0
+8. Under __Add Exclusions and Delay__, you could add your own exclusions, however, for this lab, we will not include any.
+9. Under __Lease Duration__, select an appropriate duration based on your scenario:
+    - Scenario 1: A cafeteria has a public wifi. Customers would walk in to the cafeteria and connect to the wifi receiving their addresses from the DHCP server. At the end of the night they leave and might not come back the next day. This causes issues with new customers as DHCP server allocates the address to the specific device and is reserving it until the lease duration expires. In this case, a shorter lease duration is more appropriate.
+    - Scenario 2: A small business has set up their electronics and has 30 - 80 devices. These devices are stationary and do not leave the premises. So the IP addresses assigned are being used whenever someone uses these devices. In this scenario, it's more appropriate to make the lease duration longer.
+    - For the sake of simplicity, we have set the DHCP lease duration to 3 days.
 
-Now our new VMs should be able to obtain IP address from DC1'S DHCP server and gain access to the internet.
+10. On the __Configure DHCP Options__ page, click __Next__.
+11. On the __Router (Default Gateway)__ page, enter the address of the router or device that you want the network to be routed to. In this case, DC1's address (172.16.0.1).
+12. On the __Domain Name and DNS Servers__ page, make sure DC1's address is at the top and click __Next__.
+13. Feel free to ignore WINS Servers or remove any addresses there. We will not be using a WINS server for this project.
+14. On the __Activate Scope__ page, click __Next__.
+
+Now, new VMs should be able to obtain an IP address from DC1's DHCP server
 
 ## Populating Active Directory Users using Powershell
 
@@ -311,10 +318,9 @@ New-AdUser -AccountPassword $pass -GivenName $first -Surname $last -Name $line -
 ```
 ## Installing AD Windows Operating System
 
-Although this step could've been done with a pxe image, I decided to keep it simple and use a normal Windows 10 ISO. One thing to note is that make sure that this VM does not have access to the internet. This allows us to bypass the "sign in with a microsoft account step" and allows the installtion to be smoother.
+To keep things simple, I used a normal Windows 10 ISO instead of a pxe image for a certain step. It's important to ensure that the VM used for this step doesn't have internet access to avoid any issues during installation, such as having to sign in with a Microsoft account.
 
-Another thing to note is that not all versions of windows can join an AD domain. Only the following versions are appropriate for our lab.
-
+Another thing to note is that not all versions of Windows can join an AD domain. For our lab, only certain versions are appropriate.
 https://user-images.githubusercontent.com/118489496/227679249-b6be490e-879a-467b-a31b-d72f2bc771d0.mp4
 
 https://user-images.githubusercontent.com/118489496/227679251-e26f6a5f-eea4-4f59-bbda-4474dbafdbf3.mp4
@@ -323,35 +329,33 @@ https://user-images.githubusercontent.com/118489496/227679251-e26f6a5f-eea4-4f59
 
 https://user-images.githubusercontent.com/118489496/227680122-d9abe1af-d862-44f7-8e4a-abfa6ee6e603.mp4
 
-Once the Windows VM is done installing, we need to join it to the domain we created previously. To do this do the following steps:
-1. In search bar type "about your pc".
-2. On the right panel click on "Rename this PC (advanced)".
-3. Beside "to rename this computer or change its domain or workgroup" click change.
-4. Change "Computer name" and then select "Domain" under "Member of".
-5. Type in your domain name.
-6. Click OK.
-7. Enter a user's information to join the domain. In this example I used one of the users that I created using the script.
-8. Restart your computer and login with your username.
+Once the Windows VM is done installing, it needs to be joined to the domain that was previously created. Follow these steps:
+
+1. Type __about your pc__ in the search bar.
+2. Click on __Rename this PC (advanced)__ in the right panel.
+3. Click __Change__ next to __To rename this computer or change its domain or workgroup__.
+4. Change the __Computer name__ and select __Domain__ under __Member of__.
+5. Enter the domain name.
+6. Click __OK__.
+7. Enter a user's information to join the domain. In this example, one of the users created using the script was used.
+8. Restart the computer and login with the username.
 
 https://user-images.githubusercontent.com/118489496/227680136-f0663630-4c0a-49c5-9bd6-def4c2f10ed4.mp4
 
-To view the new computer joining the domain you could go to Tools > Active Directory users and computers > Computers
+To view the new computer joining the domain, go to Tools > Active Directory users and computers > Computers.
 
 https://user-images.githubusercontent.com/118489496/227680249-8747cf13-7d94-41dd-8f05-13cf688db402.mp4
 
 ## Basic Installtion Finished
 
-Now that we have everything setup, we should have the following functioning:
-1. A functioning Windows Servr that has the following features installed and functional:
-  - Active Directory Domain Services
-  - Remote Access Services (RAS) / NAT
-  - DHCP
-2. Users created in the "Test_Users" OU 
-3. Newly domain joined Windows VM visible under "Computers"
-4. VM has network access using vmnet3 adapter.
+Now that everything is set up, the following should be functioning:
+1. A functioning Windows Server with Active Directory Domain Services, Remote Access Services (RAS)/NAT, and DHCP installed and functional.
+2. Users created in the __Test_Users__ OU.
+3. Newly domain-joined Windows VM visible under __Computers__.
+4. VM has network access using the vmnet3 adapter.
 
 
-With that being said all that's left is to install Splunk Universal Forwarder on the vm using group policy. 
+With that being said, all that's left is to install Splunk Universal Forwarder on the vm using group policy. 
 Note that if you haven't setup a splunk server, please do so or refer to my [Ubuntu Splunk Server](https://github.com/kasra-sal/Splunk-Environment-Setup) repo for more guide.
 
 # Installing Applications through Group Policy
@@ -386,7 +390,8 @@ Making a shared folder is easy. For the sake of simplicity we will keep the shar
 12. Move the programs you want to install to this folder. In the case of this project, move google chrome and Splunk Universal Forwarder's msi installer.
 
 ## Configuring a new GPO
-computer vs user
+It's worth noting that certain policies may require creating policies based on users, such as making specific software available to certain departments that don't share computers. In such cases, configuring software installation under users would be more appropriate. However, in this tutorial, I chose to configure these settings based on the computer.
+
 1. On Server Manager, click tools > Group Policy Management
 2. Right click "Test_User_Computers" or your new OU for DOmain computers and select "New GPO"
 3. Type a name for this GPO. In this case PC_SOFTWARE_INIT
@@ -431,7 +436,7 @@ https://user-images.githubusercontent.com/118489496/227703931-0dd0a5c4-1714-431c
 
 ## Peform Basic Account Security
 
-To have a more enforced policy, we will take advantage of policy hierarchy. To do this we will make a policy at the highest level, set general password policies and then enforce it down to lower level policies.
+In order to establish a more strictly enforced policy, we will utilize policy hierarchy. To achieve this, we will create a policy at the highest level, define general password policies, and then implement it down to lower level policies.
 
 https://user-images.githubusercontent.com/118489496/227737268-a82b4ccc-3b1f-4c02-97ae-9dd4f01007db.mp4
 
