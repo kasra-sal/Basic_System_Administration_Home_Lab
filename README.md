@@ -125,11 +125,11 @@ Here's how you can do it:
 - Once you have opened up your adapter options, locate the two adapters and browse through their addresses. You can tell which one is your vmnet3 and which one is your NAT adapter by looking at the IPv4 address within the status page.
 - Once you have found which one is the internal adapter (vmnet3), right-click on that adapter and choose __Properties.__
 - Double-click __Internet Protocol Version 4__ and enter the following information:
-    - IP address: 172.16.0.1 (you can set your own address as long as it doesn't overlap with other addresses)
-    - Subnet mask: 255.255.255.0 (which is a /24 subnet holding up to 254 addresses available to be assigned to hosts)
-    - Leave default gateway empty
-    - Preferred DNS: 172.16.0.1
-    - Alternate DNS: 127.0.0.1
+    - __IP address__: 172.16.0.1 (you can set your own address as long as it doesn't overlap with other addresses)
+    - __Subnet mask__: 255.255.255.0 (which is a /24 subnet holding up to 254 addresses available to be assigned to hosts)
+    - Leave __default gateway__ empty
+    - __Preferred DNS__: 172.16.0.1
+    - __Alternate DNS__: 127.0.0.1
 
 Once you have changed the addresses, your prompt should look similar to the picture shown below:
 
@@ -145,90 +145,97 @@ Next step is to setup active directory. Installing Active Directory Domain Servi
 
 https://user-images.githubusercontent.com/118489496/227043489-9134658b-e620-4cb7-a57a-3b81d75142a6.mp4
 
-1. First Click "Add Roles and Features" on your server manager.
-2. On "Before You Begin" page click next
-3. On installation type select "Role-based or feature-based installtion".
-4. On "Server Selection" page click next. (Note if you have more Domain Controllers you may have to choose the correct one)
-5. On "Server Roles" page select "Active Directory Domain Services" and click next.
-6. On "Features" page click next.
-7. On "AD DS" page click next.
-8. On "Confirmation" page click install.
-### Promoting Server to Become a Domain Controller
+To set up an Active Directory Domain Services on your Windows Server, follow these steps:
 
-Once the AD DS installtion is done, you need to promote the server to become a domain controller. 
+1. Begin by opening your Server Manager and clicking on __Add Roles and Features__.
+2. On the __Before You Begin__ page, click __Next__.
+3. Select __Role-based or feature-based installation__ as the installation type.
+4. On the __Server Selection__ page, click __Next__. Note that if you have multiple domain controllers, you may need to choose the correct one.
+5. On the __Server Roles__ page, select __Active Directory Domain Services__ and click __Next__.
+6. On the __Features__ page, click __Next__.
+7. On the __AD DS__ page, click __Next__.
+8. On the __Confirmation__ page, click __Install__.
+
+Once the installation of AD DS is complete, you will need to promote the server to become a domain controller by following these steps:
 
 https://user-images.githubusercontent.com/118489496/227045085-b61cc58e-94ec-4b41-a1ba-705b87b8daba.mp4
 
-1. On "Deployment Configuration" page select "add a new forest". Enter the domain name you want inside "Root domain name" field
-2. On "Domain Controller Options" page enter password for DSRM.
-3. On "DNS Options" page click next.
-4. On "Additional Options" page click next.
-5. On "Paths" page click next.
-6. On "Review Options" page click next.
-7. On "Prerequisites Check" page click install.
+1. On the __Deployment Configuration__ page, select __Add a new forest__ and enter the desired domain name in the __Root domain name__ field.
+2. On the __Domain Controller Options__ page, enter a password for DSRM.
+3. On the __DNS Options__ page, click __Next__.
+4. On the __Additional Options__ page, click __Next__.
+5. On the __Paths__ page, click __Next__.
+6. On the __Review Options__ page, click __Next__.
+7. On the __Prerequisites Check__ page, click __Install__.
 
 ## Domain Admin Creation
 
-It is good security practice to make a second tier admin that has necessary permissions to perform certain actions but restricted to a defined scope. For this reason I made a user named "John Doe" and assigned the role "Domain Admin" to it. 
+It's important to implement good security practices to ensure the safety and integrity of your system. One such practice is creating a second tier admin with necessary permissions to perform certain actions but restricted to a defined scope. For this reason, I created a user named __John Doe__ and assigned the role of __Domain Admin__ to it.
 
 https://user-images.githubusercontent.com/118489496/227644918-643886e8-2bc5-4d6e-a6fd-8f0f7a921fc4.mp4
 
-To create a new user in your active directory, do the following:
-1. Click on tools on the server manager.
-2. Select active directory users and computers
-3. expand the domain to be able to see OUs within the domain
-4. Right click on the doman and choose New > Organizational Unit
-5. Type in "Test_Users" and click ok
-6. Right click on "Test_Users" OU and choose New > User
-7. Type in the following information:
-  - First Name: John
-  - Last Name: Doe
-  - Full Name John Doe
-  - User logon name: J-Doe
-8. Click next
-9. Fill in the password field.
-10. (Optional) : I decided to not force my user to change password at the next logon. This results in less flexiblity and security for the user and should be checked everytime. But for the purpose of this lab I decided to not do so.
-11. Once you finished creating the user, right click on John Doe and choose properties.
-12. Click on Member Of > Add ...
-13. Under "Enter the object names to select type "Domain Admin" and click check names.
-14. press ok.
+To create a new user in your active directory, follow these steps:
 
-Once you restart the server you should be able to login using John Does logon name and password.
+1. Click on __Tools__ on the server manager.
+2. Select __Active Directory Users and Computers__.
+3. Expand the domain to be able to see OUs within the domain.
+4. Right-click on the domain and choose __New__ > __Organizational Unit__.
+5. Type in __Test_Users__ and click __OK__.
+6. Right-click on the __Test_Users__ OU and choose __New__ > __User__.
+7. Type in the following information:
+    - __First Name__: John
+    - __Last Name__: Doe
+    - __Full Name__: John Doe
+    - __User Logon Name__: J-Doe
+8. Click __Next__.
+9. Fill in the password field.
+10. (Optional): You may choose to force the user to change their password at the next logon. While this can reduce the risk of unauthorized access, it can also result in less flexibility and security for the user. Make sure to weigh the pros and cons and decide accordingly.
+11. Once you have finished creating the user, right-click on John Doe and choose __Properties__.
+12. Click on __Member Of__ > __Add ...__.
+13. Under __Enter the object names to select__, type __Domain Admin__ and click __Check Names__.
+14. Press __OK__.
+
+It's important to note that regular password changes are also a good security practice. While forcing the user to change their password at the next logon can be less flexible, it can help reduce the risk of unauthorized access. Make sure to weigh the pros and cons and decide accordingly.
 
 https://user-images.githubusercontent.com/118489496/227645021-bbb03c03-c8e6-4847-8726-abb2362963a0.mp4
+
+Once you have completed these steps and restarted the server, you should be able to log in using John Doe's logon name and password.
 
 ## Installing and Configuring RAS/NAT 
 
 ![DeepinScreenshot_select-area_20230321143326](https://user-images.githubusercontent.com/118489496/227645739-fc9b6614-2c3a-46e7-96b6-01bc9bbdabfc.png)
 
-The intended purpose for these services is to be able to route new computer's traffic through the server. This way we would have more control over the network at the cost of more overhead. With that being said, I wanted to make the network so that VM "AD Jorb" (Btw I couldn't think of a better name at the time :) ) has to send its traffic through DC1 and then from DC1 the traffic gets relayed to the internet using NAT.
+The primary goal of implementing these services is to have greater control over the network, albeit at the cost of additional overhead. Specifically, we want to route new computer traffic through the server. In this context, I have configured the network such that the traffic originating from the VM "AD Jorb" (admittedly not the most imaginative name!) must go through DC1 before being relayed to the internet using NAT.
 
 https://user-images.githubusercontent.com/118489496/227647166-5bb2f116-c3d4-461b-b2a9-5fafa259b11e.mp4
 
-### To install RAS do the following:
+## Installing RAS
+### To install RAS, follow these steps:
 
-1. On server manager, click on "add roles and features.
-2. On "Before You Begin" page click next.
-3. On "Installation Type" page click next.
-4. On "Server Selection" page choose your server and click next.
-5. On "Server Roles" page, select "Remote Access" and click next.
-6. On "Features" page click next.
-7. On "Remote Access" page click next.
-8. On "Role Services" select "Routing", click "add feature" and click next.
-9. On "Confirmation" page click install.
+1. Open Server Manager and click on __Add Roles and Features__.
+2. On the __Before You Begin__ page, click Next.
+3. On the __Installation Type__ page, click Next.
+4. On the __Server Selection__ page, select your server and click Next.
+5. On the __Server Roles__ page, select __Remote Access__ and click Next.
+6. On the __Features__ page, click Next.
+7. On the __Remote Access__ page, click Next.
+8. Under __Role Services__, select __Routing__. Then click __Add Feature__ and click Next.
+9. On the __Confirmation__ page, click Install.
 
-### To configure RAS do the following:
+## Configuring RAS
 
-1. On server manager, click tools > Routing and Remote Access
-2. Right click on your domain controller and click "Configure and Enable Routing and Remote Access"
-3. Click Next
-4. On "Configuration" page select "Network Address Translation (NAT)" and click Next.
-5. On "NAT Internet Connection" select the network interface that is internet facing. To make this easier, it's the adapter that was not manually configured earlier. 
-6. On "Completing the Routing and Remote Access Server Setup" Click Finish.
+### To configure RAS, follow these steps:
+
+1. Open Server Manager and click on __Tools__ > __Routing and Remote Access__.
+2. Right-click on your domain controller and select __Configure and Enable Routing and Remote Access__.
+3. Click Next.
+4. On the __Configuration__ page, select __Network Address Translation (NAT)__ and click Next.
+5. Under __NAT Internet Connection__, select the network interface that is internet-facing. This should be the adapter that was not manually configured earlier.
+6. On the __Completing the Routing and Remote Access Server Setup__ page, click Finish.
 
 ## Installing and Configuring DHCP
 
-To make the process as dynamic as possible, I decided to install DHCP on my domain controller. This way any new device that connects to the vmnet3 network, will be able to obtain an ip address from the DHCP server in this case being DC1. for the sake of simplicity, I avoided making exclusions or making it too complicated however you could exclude certain address ranges on your DHCP scope. 
+To make the process as flexible as possible, DHCP is installed on the domain controller. This ensures that any new device that connects to the vmnet3 network is able to obtain an IP address from the DHCP server, in this case, DC1. For the sake of simplicity, I have avoided making exclusions or overcomplicating the process, although it is possible to exclude certain address ranges on your DHCP scope.
 
 https://user-images.githubusercontent.com/118489496/227656290-f807c845-ec84-4d03-a6b9-5d8d32d551b7.mp4
 
