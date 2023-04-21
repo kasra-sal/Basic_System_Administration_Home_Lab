@@ -377,7 +377,7 @@ Making a shared folder is easy. For the sake of simplicity we will keep the shar
 3. Right click on this folder and go to properties.
 4. Click on "Sharing" tab.
 5. Click on Advanced Sharing.
-6. Select "Share this folder" (Note: addig $ at the end of share name will make it hidden, yet discoverable if full path is specifed)
+6. Select "Share this folder" (Note: adding $ at the end of share name will make it hidden, yet discoverable if full path is specifed)
 7. Click on Permissions > Add.
 8. Under "Enter the object names to select" type "Domain Computers".
 9. Remove "Everyone" to limit access to this folder. Click Apply.
